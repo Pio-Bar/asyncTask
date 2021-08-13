@@ -5,34 +5,33 @@
   Is the result is easier to read than the callback-based one?
 */
 
-const util = require('util')
-const fs = require('fs')
+const util = require("util");
+const fs = require("fs");
 
-const readFile = util.promisify(fs.readFile)
-const writeFile = util.promisify(fs.writeFile)
+const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
 
-readFile('./extra/imAHappyFile.txt', 'utf8')
-  .then(fileContent => {
-    console.log('Old file content is: ', fileContent)
-    // this code executes once reading of file data is done
-  })
-  .catch(err => {
+//RESET HAPPY LITTLE FILE
+const originalText = "Hello there, I'm a happy file.";
+fs.writeFile("./extra/imAHappyFile.txt", originalText, "utf8", (err) => {
+  if (err) throw err;
+});
 
-  })
-let newFileText = ''
-writeFile('./extra/imAHappyFile.txt', newFileText , 'utf8')
-  .then(fileContent => {
-    // this code executes once writing data to file is done
-  })
-  .catch(err => {
-    
-  })
+let newFileText = "";
 
-readFile('./extra/imAHappyFile.txt', 'utf8')
-  .then(fileContent => {
-    console.log('Old file content is: ', fileContent)
-    // this code executes once reading of file data is done
+readFile("./extra/imAHappyFile.txt", "utf8")
+  .then((fileContent) => {
+    console.log("Old file content is: ", fileContent);
+    newFileText = fileContent.replace(/\s/g, "-");
   })
-  .catch(err => {
-    
+  .catch((err) => {})
+  .then(() => {
+    writeFile("./extra/imAHappyFile.txt", newFileText, "utf8");
   })
+  .then(() => {
+    readFile("./extra/imAHappyFile.txt", "utf8")
+      .then((fileContent) => {
+        console.log("Old file content is: ", fileContent);
+      })
+      .catch((err) => {});
+  });

@@ -1,5 +1,5 @@
 /*
-  Below function will print "Hello!!!" in 1 second (1000 miliseconds).
+  Below function will print "Hello!!!" in 1 second (1000 milliseconds).
 
   setTimeout(function () {
     console.log('Hello!!!')
@@ -42,34 +42,42 @@
 
   Timeout delegates our callback to be executed some time in the future, the exact time is set by the second argument.
 
-  Take the below function and make it an asychronous function accepting a callback. Just like setTimeout or setInterval does.
+  Take the below function and make it an asynchronous function accepting a callback. Just like setTimeout or setInterval does.
 
 */
 
 ////////////////////////////////////////// THE TASK //////////////////////////////////////////
- 
+
 /*
   Modify the waitUntil function in a way that will resemble the setTimeout/setInterval functions.
   The waitUntil should accept two arguments: a callback that will be delegated to be executed at specific point in the future
   and the date at which it's supposed to be executed.
-  You can get the current date with new Date().getTime() which returns you the amount of miliseconds that elapsed since
+  You can get the current date with new Date().getTime() which returns you the amount of milliseconds that elapsed since
   specific point in history, called UNIX epoch (00:00:00 UTC on 1 January 1970).
   This way of representing time is usually called a timestamp.
 
 
 */
 
-const currentDate = new Date().getTime()
-console.log(`Current date is ${currentDate}`)
+const currentDate = new Date().getTime();
+console.log(`Current date is ${currentDate}`);
 
-const twoSeconds = 2 * 1000 // 2 000 ms
-console.log(`Time in 2 seconds is ${currentDate + twoSeconds}`)
+const twoSeconds = 2 * 1000; // 2 000 ms
+console.log(`Time in 2 seconds is ${currentDate + twoSeconds}`);
 
-function waitUntil(timeInTheFuture) {
-  const currentTime = new Date().getTime()
-  const amountOfTimeToWait = timeInTheFuture - currentTime
-  setTimeout(() => {
-    // We're here in the correct time
 
-  }, amountOfTimeToWait)
+function message() {
+  console.log("Wait for me!");
 }
+
+const timeInSixSeconds = new Date().getTime() + 6000;
+
+function waitUntil(timeInTheFuture, callback) {
+  const currentTime = new Date().getTime();
+  const amountOfTimeToWait = timeInTheFuture - currentTime;
+  setTimeout(() => {
+    callback();
+  }, amountOfTimeToWait);
+}
+
+waitUntil(timeInSixSeconds, message);

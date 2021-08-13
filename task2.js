@@ -6,21 +6,33 @@
   Is the result easy to read?
 */
 
-const fs = require('fs')
+const fs = require("fs");
 
-fs.readFile('./extra/imAHappyFile.txt', 'utf8', (err, fileContent) => {
+//RESET HAPPY LITTLE FILE
+const originalText = "Hello there, I'm a happy file.";
+fs.writeFile("./extra/imAHappyFile.txt", originalText, "utf8", (err) => {
   if (err) throw err;
-  // this code executes once reading of file data is done
-  console.log('Old file content is: ', fileContent)
-})
-let newFileText = ''
-fs.writeFile('./extra/imAHappyFile.txt', newFileText ,'utf8', (err) => {
-  if (err) throw err;
-  // this code executes once writing data to file is done
-})
+});
 
-fs.readFile('./extra/imAHappyFile.txt', 'utf8', (err, fileContent) => {
+let newFileText = "";
+
+fs.readFile("./extra/imAHappyFile.txt", "utf8", (err, fileContent) => {
   if (err) throw err;
-  // this code executes once reading of file data is done
-  console.log('New file content is: ', fileContent)
-})
+  newFileText = fileContent.replace(/\s/g, "-");
+  console.log("Old file content is: ", fileContent);
+  writeFile();
+});
+
+function writeFile() {
+  fs.writeFile("./extra/imAHappyFile.txt", newFileText, "utf8", (err) => {
+    if (err) throw err;
+    readFile();
+  });
+}
+
+function readFile() {
+  fs.readFile("./extra/imAHappyFile.txt", "utf8", (err, fileContent) => {
+    if (err) throw err;
+    console.log("New file content is: ", fileContent);
+  });
+}

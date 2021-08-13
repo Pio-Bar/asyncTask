@@ -19,17 +19,25 @@
 
 */
 
-const util = require('util')
-const fs = require('fs')
+const util = require("util");
+const fs = require("fs");
 
-const readFile = util.promisify(fs.readFile)
-const writeFile = util.promisify(fs.writeFile)
+const readFile = util.promisify(fs.readFile);
+const writeFile = util.promisify(fs.writeFile);
+
+//RESET HAPPY LITTLE FILE
+const originalText = "Hello there, I'm a happy file.";
+fs.writeFile("./extra/imAHappyFile.txt", originalText, "utf8", (err) => {
+  if (err) throw err;
+});
 
 async function editFile() {
-  readFile('./extra/imAHappyFile.txt', 'utf8')
-  let newFileText = ''
-  writeFile('./extra/imAHappyFile.txt', newFileText , 'utf8')
-  readFile('./extra/imAHappyFile.txt', 'utf8')
+  const fileContent = await readFile("./extra/imAHappyFile.txt", "utf8");
+  console.log("Old file content is: ", fileContent);
+  let newFileText = fileContent.replace(/\s/g, "-");
+  writeFile("./extra/imAHappyFile.txt", newFileText, "utf8");
+  const changedFileContent = await readFile("./extra/imAHappyFile.txt", "utf8");
+  console.log("New file content is: ", changedFileContent);
 }
 
-editFile()
+editFile();
