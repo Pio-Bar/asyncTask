@@ -27,17 +27,16 @@ const writeFile = util.promisify(fs.writeFile);
 
 //RESET HAPPY LITTLE FILE
 const originalText = "Hello there, I'm a happy file.";
-fs.writeFile("./extra/imAHappyFile.txt", originalText, "utf8", (err) => {
+writeFile("./extra/imAHappyFile.txt", originalText, "utf8", (err) => {
   if (err) throw err;
+  editFile();
 });
 
 async function editFile() {
   const fileContent = await readFile("./extra/imAHappyFile.txt", "utf8");
   console.log("Old file content is: ", fileContent);
-  let newFileText = fileContent.replace(/\s/g, "-");
-  writeFile("./extra/imAHappyFile.txt", newFileText, "utf8");
+  const newFileText = fileContent.replace(/\s/g, "-");
+  await writeFile("./extra/imAHappyFile.txt", newFileText, "utf8");
   const changedFileContent = await readFile("./extra/imAHappyFile.txt", "utf8");
   console.log("New file content is: ", changedFileContent);
 }
-
-editFile();
