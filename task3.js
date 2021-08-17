@@ -24,14 +24,10 @@ readFile("./extra/imAHappyFile.txt", "utf8")
     console.log("Old file content is: ", fileContent);
     newFileText = fileContent.replace(/\s/g, "-");
   })
-  .catch((err) => {})
-  .then(() => {
-    writeFile("./extra/imAHappyFile.txt", newFileText, "utf8");
+  .catch((err) => console.error(err))
+  .then(() => writeFile("./extra/imAHappyFile.txt", newFileText, "utf8"))
+  .then(() => readFile("./extra/imAHappyFile.txt", "utf8"))
+  .then((fileContent) => {
+    console.log("Old file content is: ", fileContent);
   })
-  .then(() => {
-    readFile("./extra/imAHappyFile.txt", "utf8")
-      .then((fileContent) => {
-        console.log("Old file content is: ", fileContent);
-      })
-      .catch((err) => {});
-  });
+  .catch((err) => console.error(err));
